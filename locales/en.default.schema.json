@@ -1,0 +1,28 @@
+{
+  "content": {
+    "free_shipping_bar": "Free shipping bar",
+    "free_shipping_bar_style": "Style"
+  },
+  "settings": {
+    "show_free_shipping_bar": "Show free shipping bar",
+    "free_shipping_bar_tier_amount": "Tier amount",
+    "free_shipping_bar_tier_label": "Tier reward label",
+    "free_shipping_bar_tier_icon": "Tier icon",
+    "free_shipping_bar_color": "Bar color",
+    "free_shipping_bar_track_height": "Bar thickness",
+    "free_shipping_bar_marker_size": "Marker size",
+    "free_shipping_bar_icon_size": "Icon size",
+    "free_shipping_bar_progress_text": "Progress message",
+    "free_shipping_bar_success_text": "Success message"
+  },
+  "info": {
+    "free_shipping_bar_tier_amount": "Leave blank to skip this tier. Enter tiers in ascending order (Tier 1 lowest, Tier 3 highest).",
+    "free_shipping_bar_progress_text": "Use [amount] and [reward] as placeholders — they'll be replaced with the remaining amount and the tier's reward label",
+    "free_shipping_bar_icon_size": "For best results, keep this smaller than the marker size"
+  },
+  "options": {
+    "free_shipping_bar_icon_truck": "Truck",
+    "free_shipping_bar_icon_gift": "Gift",
+    "free_shipping_bar_icon_discount": "Discount"
+  }
+}

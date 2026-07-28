@@ -1,0 +1,28 @@
+{
+  "content": {
+    "free_shipping_bar": "Barre de livraison gratuite",
+    "free_shipping_bar_style": "Style"
+  },
+  "settings": {
+    "show_free_shipping_bar": "Afficher la barre de livraison gratuite",
+    "free_shipping_bar_tier_amount": "Montant du palier",
+    "free_shipping_bar_tier_label": "Libellé de récompense du palier",
+    "free_shipping_bar_tier_icon": "Icône du palier",
+    "free_shipping_bar_color": "Couleur de la barre",
+    "free_shipping_bar_track_height": "Épaisseur de la barre",
+    "free_shipping_bar_marker_size": "Taille du rond",
+    "free_shipping_bar_icon_size": "Taille de l'icône",
+    "free_shipping_bar_progress_text": "Message de progression",
+    "free_shipping_bar_success_text": "Message de succès"
+  },
+  "info": {
+    "free_shipping_bar_tier_amount": "Laisser vide pour ignorer ce palier. Entrez les paliers par ordre croissant (palier 1 le plus bas, palier 3 le plus élevé).",
+    "free_shipping_bar_progress_text": "Utilisez [amount] et [reward] comme placeholders — ils seront remplacés par le montant restant et le libellé de récompense du palier",
+    "free_shipping_bar_icon_size": "Pour un meilleur rendu, gardez cette taille plus petite que celle du rond"
+  },
+  "options": {
+    "free_shipping_bar_icon_truck": "Camion",
+    "free_shipping_bar_icon_gift": "Cadeau",
+    "free_shipping_bar_icon_discount": "Réduction"
+  }
+}

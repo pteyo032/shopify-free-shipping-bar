@@ -1,0 +1,378 @@
+{% doc %}
+  Renders a progressive free shipping bar for the cart drawer, showing up to 3 configurable
+  amount tiers and how far the customer is from the next one. Purely informational — actual
+  discounts/shipping rates must be configured separately in Shopify Discounts / Shipping.
+
+  Included from `snippets/cart-drawer.liquid`.
+{% enddoc %}
+
+{%- liquid
+  assign subtotal = cart.items_subtotal_price
+
+  assign t1_amount = settings.free_shipping_bar_tier_1_amount | plus: 0 | times: 100
+  assign t1_label = settings.free_shipping_bar_tier_1_label
+  assign t1_valid = false
+  if settings.free_shipping_bar_tier_1_amount != blank and t1_amount > 0
+    assign t1_valid = true
+  endif
+  assign t1_icon_file = ''
+  case settings.free_shipping_bar_tier_1_icon
+    when 'truck'
+      assign t1_icon_file = 'icon-truck.svg'
+    when 'gift'
+      assign t1_icon_file = 'icon-gift.svg'
+    when 'discount'
+      assign t1_icon_file = 'icon-discount.svg'
+  endcase
+
+  assign t2_amount = settings.free_shipping_bar_tier_2_amount | plus: 0 | times: 100
+  assign t2_label = settings.free_shipping_bar_tier_2_label
+  assign t2_valid = false
+  if settings.free_shipping_bar_tier_2_amount != blank and t2_amount > 0
+    assign t2_valid = true
+  endif
+  assign t2_icon_file = ''
+  case settings.free_shipping_bar_tier_2_icon
+    when 'truck'
+      assign t2_icon_file = 'icon-truck.svg'
+    when 'gift'
+      assign t2_icon_file = 'icon-gift.svg'
+    when 'discount'
+      assign t2_icon_file = 'icon-discount.svg'
+  endcase
+
+  assign t3_amount = settings.free_shipping_bar_tier_3_amount | plus: 0 | times: 100
+  assign t3_label = settings.free_shipping_bar_tier_3_label
+  assign t3_valid = false
+  if settings.free_shipping_bar_tier_3_amount != blank and t3_amount > 0
+    assign t3_valid = true
+  endif
+  assign t3_icon_file = ''
+  case settings.free_shipping_bar_tier_3_icon
+    when 'truck'
+      assign t3_icon_file = 'icon-truck.svg'
+    when 'gift'
+      assign t3_icon_file = 'icon-gift.svg'
+    when 'discount'
+      assign t3_icon_file = 'icon-discount.svg'
+  endcase
+
+  assign valid_tier_count = 0
+  if t1_valid
+    assign valid_tier_count = valid_tier_count | plus: 1
+  endif
+  if t2_valid
+    assign valid_tier_count = valid_tier_count | plus: 1
+  endif
+  if t3_valid
+    assign valid_tier_count = valid_tier_count | plus: 1
+  endif
+
+  assign last_valid_amount = 0
+  if t3_valid
+    assign last_valid_amount = t3_amount
+  elsif t2_valid
+    assign last_valid_amount = t2_amount
+  elsif t1_valid
+    assign last_valid_amount = t1_amount
+  endif
+
+  assign next_tier_amount = 0
+  assign next_tier_label = ''
+  assign next_tier_found = false
+  if t1_valid and subtotal < t1_amount
+    assign next_tier_amount = t1_amount
+    assign next_tier_label = t1_label
+    assign next_tier_found = true
+  elsif t2_valid and subtotal < t2_amount
+    assign next_tier_amount = t2_amount
+    assign next_tier_label = t2_label
+    assign next_tier_found = true
+  elsif t3_valid and subtotal < t3_amount
+    assign next_tier_amount = t3_amount
+    assign next_tier_label = t3_label
+    assign next_tier_found = true
+  endif
+
+  assign fill_percent = 0
+  if last_valid_amount > 0
+    assign fill_percent = subtotal | times: 100.0 | divided_by: last_valid_amount
+    assign fill_percent = fill_percent | at_most: 100 | at_least: 0 | round: 2
+  endif
+
+  assign t1_position = 0
+  assign t2_position = 0
+  assign t3_position = 0
+  if last_valid_amount > 0
+    if t1_valid
+      assign t1_position = t1_amount | times: 100.0 | divided_by: last_valid_amount | round: 2
+    endif
+    if t2_valid
+      assign t2_position = t2_amount | times: 100.0 | divided_by: last_valid_amount | round: 2
+    endif
+    if t3_valid
+      assign t3_position = t3_amount | times: 100.0 | divided_by: last_valid_amount | round: 2
+    endif
+  endif
+
+  comment
+    Each tier fills its own segment of the track independently, so the fill stops exactly
+    at a tier's marker once reached instead of continuing on as one long bar. Segment N
+    spans from the previous valid tier's amount/position up to tier N's own amount/position.
+  endcomment
+  assign prev_amount_1 = 0
+  assign prev_position_1 = 0
+
+  assign prev_amount_2 = 0
+  assign prev_position_2 = 0
+  if t1_valid
+    assign prev_amount_2 = t1_amount
+    assign prev_position_2 = t1_position
+  endif
+
+  assign prev_amount_3 = 0
+  assign prev_position_3 = 0
+  if t2_valid
+    assign prev_amount_3 = t2_amount
+    assign prev_position_3 = t2_position
+  elsif t1_valid
+    assign prev_amount_3 = t1_amount
+    assign prev_position_3 = t1_position
+  endif
+
+  assign segment_width_1 = 0
+  if t1_valid and last_valid_amount > 0
+    assign segment_progress_1 = subtotal | at_least: prev_amount_1 | at_most: t1_amount
+    assign segment_width_1 = segment_progress_1 | minus: prev_amount_1 | times: 100.0 | divided_by: last_valid_amount | round: 2
+  endif
+
+  assign segment_width_2 = 0
+  if t2_valid and last_valid_amount > 0
+    assign segment_progress_2 = subtotal | at_least: prev_amount_2 | at_most: t2_amount
+    assign segment_width_2 = segment_progress_2 | minus: prev_amount_2 | times: 100.0 | divided_by: last_valid_amount | round: 2
+  endif
+
+  assign segment_width_3 = 0
+  if t3_valid and last_valid_amount > 0
+    assign segment_progress_3 = subtotal | at_least: prev_amount_3 | at_most: t3_amount
+    assign segment_width_3 = segment_progress_3 | minus: prev_amount_3 | times: 100.0 | divided_by: last_valid_amount | round: 2
+  endif
+
+  if next_tier_found
+    assign remaining_cents = next_tier_amount | minus: subtotal
+    assign remaining_formatted = remaining_cents | money
+    assign bar_message = settings.free_shipping_bar_progress_text | replace: '[amount]', remaining_formatted | replace: '[reward]', next_tier_label
+  else
+    assign bar_message = settings.free_shipping_bar_success_text
+  endif
+-%}
+
+{%- if settings.show_free_shipping_bar and valid_tier_count > 0 -%}
+  <div
+    class="free-shipping-bar{% unless next_tier_found %} free-shipping-bar--complete{% endunless %}"
+    role="progressbar"
+    aria-valuenow="{{ fill_percent | round }}"
+    aria-valuemin="0"
+    aria-valuemax="100"
+    aria-label="{{ 'accessibility.free_shipping_bar' | t }}"
+    style="
+      --fsb-track-height: {{ settings.free_shipping_bar_track_height }}px;
+      --fsb-marker-size: {{ settings.free_shipping_bar_marker_size }}px;
+      --fsb-icon-size: {{ settings.free_shipping_bar_icon_size }}px;
+      {%- if settings.free_shipping_bar_color != blank %}
+        --fsb-fill-color: {{ settings.free_shipping_bar_color }};
+      {%- endif %}
+    "
+  >
+    <p class="free-shipping-bar__message">
+      {%- if next_tier_found -%}
+        {{ bar_message }}
+      {%- else -%}
+        <strong>{{ bar_message }}</strong>
+      {%- endif -%}
+    </p>
+
+    <div class="free-shipping-bar__track">
+      {%- if t1_valid -%}
+        <div
+          class="free-shipping-bar__fill"
+          style="left: {{ prev_position_1 }}%; width: {{ segment_width_1 }}%;"
+        ></div>
+      {%- endif -%}
+      {%- if t2_valid -%}
+        <div
+          class="free-shipping-bar__fill"
+          style="left: {{ prev_position_2 }}%; width: {{ segment_width_2 }}%;"
+        ></div>
+      {%- endif -%}
+      {%- if t3_valid -%}
+        <div
+          class="free-shipping-bar__fill"
+          style="left: {{ prev_position_3 }}%; width: {{ segment_width_3 }}%;"
+        ></div>
+      {%- endif -%}
+
+      {%- if t1_valid -%}
+        <span
+          class="free-shipping-bar__marker{% if subtotal >= t1_amount %} free-shipping-bar__marker--reached{% endif %}"
+          style="left: {{ t1_position }}%;"
+        >
+          <span class="free-shipping-bar__marker-dot">
+            {%- if t1_icon_file != blank -%}
+              {{- t1_icon_file | inline_asset_content -}}
+            {%- elsif subtotal >= t1_amount -%}
+              {{- 'icon-checkmark.svg' | inline_asset_content -}}
+            {%- endif -%}
+          </span>
+          <span class="free-shipping-bar__marker-label">{{ t1_label }}</span>
+        </span>
+      {%- endif -%}
+
+      {%- if t2_valid -%}
+        <span
+          class="free-shipping-bar__marker{% if subtotal >= t2_amount %} free-shipping-bar__marker--reached{% endif %}"
+          style="left: {{ t2_position }}%;"
+        >
+          <span class="free-shipping-bar__marker-dot">
+            {%- if t2_icon_file != blank -%}
+              {{- t2_icon_file | inline_asset_content -}}
+            {%- elsif subtotal >= t2_amount -%}
+              {{- 'icon-checkmark.svg' | inline_asset_content -}}
+            {%- endif -%}
+          </span>
+          <span class="free-shipping-bar__marker-label">{{ t2_label }}</span>
+        </span>
+      {%- endif -%}
+
+      {%- if t3_valid -%}
+        <span
+          class="free-shipping-bar__marker{% if subtotal >= t3_amount %} free-shipping-bar__marker--reached{% endif %}"
+          style="left: {{ t3_position }}%;"
+        >
+          <span class="free-shipping-bar__marker-dot">
+            {%- if t3_icon_file != blank -%}
+              {{- t3_icon_file | inline_asset_content -}}
+            {%- elsif subtotal >= t3_amount -%}
+              {{- 'icon-checkmark.svg' | inline_asset_content -}}
+            {%- endif -%}
+          </span>
+          <span class="free-shipping-bar__marker-label">{{ t3_label }}</span>
+        </span>
+      {%- endif -%}
+    </div>
+  </div>
+{%- endif -%}
+
+{% stylesheet %}
+  .free-shipping-bar {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-sm);
+    padding-inline: var(--cart-drawer-padding);
+    /* Own top spacing so this component never sits flush against whatever precedes it
+       (empty-cart title or drawer header), regardless of their own margins. */
+    margin-block-start: var(--gap-lg);
+    padding-block-end: var(--padding-lg);
+  }
+
+  .free-shipping-bar__message {
+    margin: 0;
+    text-align: center;
+  }
+
+  .free-shipping-bar__track {
+    position: relative;
+    height: var(--fsb-track-height, 0.5rem);
+    border-radius: var(--style-border-radius-pills);
+    background-color: rgb(var(--color-foreground-rgb) / var(--opacity-10-25));
+    margin-block-start: var(--margin-lg);
+    /* Reserves flow space for the marker labels below, which are positioned absolutely
+       and would otherwise overlap the next element in the cart drawer. Scales with the
+       marker size setting so larger markers (and their labels) still fit. */
+    margin-block-end: calc(var(--fsb-marker-size, 1rem) / 2 + var(--gap-2xs) + 2rem);
+  }
+
+  .free-shipping-bar__fill {
+    position: absolute;
+    inset-block: 0;
+    height: 100%;
+    background-color: var(--fsb-fill-color, var(--color-primary-button-background));
+    transition: width var(--animation-speed) var(--animation-easing);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .free-shipping-bar__fill {
+      transition: none;
+    }
+  }
+
+  /* Anchors each marker at its position on the track, vertically centered on the
+     track's own line. Dot and label are positioned independently below so the label's
+     height never shifts the dot off the line. */
+  .free-shipping-bar__marker {
+    position: absolute;
+    top: 50%;
+    /* Matches the dot's own width: since the dot and label are positioned absolutely
+       (not in normal flow), this container would otherwise collapse to zero width and
+       the edge-clamping transforms below would have nothing to shift by. */
+    width: var(--fsb-marker-size, 1rem);
+    transform: translateX(-50%);
+  }
+
+  /* The fill bars are <div>s, markers are <span>s, so :first-of-type/:last-of-type
+     target the first/last marker regardless of which tiers are configured, clamping
+     them to the track's edges instead of overflowing past it. */
+  .free-shipping-bar__marker:first-of-type {
+    transform: translateX(0);
+  }
+
+  .free-shipping-bar__marker:last-of-type {
+    transform: translateX(-100%);
+  }
+
+  .free-shipping-bar__marker-dot {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: var(--fsb-marker-size, 1rem);
+    height: var(--fsb-marker-size, 1rem);
+    border-radius: 50%;
+    background-color: var(--color-background);
+    border: var(--style-border-width) solid rgb(var(--color-foreground-rgb) / var(--opacity-10-25));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .free-shipping-bar__marker-dot svg {
+    width: var(--fsb-icon-size, 0.625rem);
+    height: var(--fsb-icon-size, 0.625rem);
+  }
+
+  .free-shipping-bar__marker--reached .free-shipping-bar__marker-dot {
+    background-color: var(--fsb-fill-color, var(--color-primary-button-background));
+    border-color: var(--fsb-fill-color, var(--color-primary-button-background));
+    color: var(--color-primary-button-text);
+  }
+
+  .free-shipping-bar__marker-label {
+    position: absolute;
+    top: calc(var(--fsb-marker-size, 1rem) / 2 + var(--gap-2xs));
+    left: 50%;
+    transform: translateX(-50%);
+    /* Wraps onto multiple lines instead of overlapping a neighboring label when tiers
+       are close together on the track. */
+    width: max-content;
+    max-width: 4.5rem;
+    text-align: center;
+    font-size: var(--font-size--2xs);
+  }
+
+  @media screen and (max-width: 749px) {
+    .free-shipping-bar__marker-label {
+      max-width: 3.75rem;
+      font-size: var(--font-size--3xs);
+    }
+  }
+{% endstylesheet %}

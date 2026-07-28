@@ -1,0 +1,155 @@
+[
+  {
+    "type": "header",
+    "content": "t:content.free_shipping_bar"
+  },
+  {
+    "type": "checkbox",
+    "id": "show_free_shipping_bar",
+    "label": "t:settings.show_free_shipping_bar",
+    "default": true
+  },
+  {
+    "type": "text",
+    "id": "free_shipping_bar_tier_1_amount",
+    "label": "t:settings.free_shipping_bar_tier_amount",
+    "info": "t:info.free_shipping_bar_tier_amount",
+    "default": "50",
+    "visible_if": "{{ settings.show_free_shipping_bar }}"
+  },
+  {
+    "type": "text",
+    "id": "free_shipping_bar_tier_1_label",
+    "label": "t:settings.free_shipping_bar_tier_label",
+    "default": "Free shipping",
+    "visible_if": "{{ settings.show_free_shipping_bar }}"
+  },
+  {
+    "type": "select",
+    "id": "free_shipping_bar_tier_1_icon",
+    "label": "t:settings.free_shipping_bar_tier_icon",
+    "options": [
+      { "value": "none", "label": "t:options.none" },
+      { "value": "truck", "label": "t:options.free_shipping_bar_icon_truck" },
+      { "value": "gift", "label": "t:options.free_shipping_bar_icon_gift" },
+      { "value": "discount", "label": "t:options.free_shipping_bar_icon_discount" }
+    ],
+    "default": "truck",
+    "visible_if": "{{ settings.show_free_shipping_bar }}"
+  },
+  {
+    "type": "text",
+    "id": "free_shipping_bar_tier_2_amount",
+    "label": "t:settings.free_shipping_bar_tier_amount",
+    "info": "t:info.free_shipping_bar_tier_amount",
+    "default": "100",
+    "visible_if": "{{ settings.show_free_shipping_bar }}"
+  },
+  {
+    "type": "text",
+    "id": "free_shipping_bar_tier_2_label",
+    "label": "t:settings.free_shipping_bar_tier_label",
+    "default": "Surprise gift",
+    "visible_if": "{{ settings.show_free_shipping_bar }}"
+  },
+  {
+    "type": "select",
+    "id": "free_shipping_bar_tier_2_icon",
+    "label": "t:settings.free_shipping_bar_tier_icon",
+    "options": [
+      { "value": "none", "label": "t:options.none" },
+      { "value": "truck", "label": "t:options.free_shipping_bar_icon_truck" },
+      { "value": "gift", "label": "t:options.free_shipping_bar_icon_gift" },
+      { "value": "discount", "label": "t:options.free_shipping_bar_icon_discount" }
+    ],
+    "default": "gift",
+    "visible_if": "{{ settings.show_free_shipping_bar }}"
+  },
+  {
+    "type": "text",
+    "id": "free_shipping_bar_tier_3_amount",
+    "label": "t:settings.free_shipping_bar_tier_amount",
+    "info": "t:info.free_shipping_bar_tier_amount",
+    "default": "150",
+    "visible_if": "{{ settings.show_free_shipping_bar }}"
+  },
+  {
+    "type": "text",
+    "id": "free_shipping_bar_tier_3_label",
+    "label": "t:settings.free_shipping_bar_tier_label",
+    "default": "-10%",
+    "visible_if": "{{ settings.show_free_shipping_bar }}"
+  },
+  {
+    "type": "select",
+    "id": "free_shipping_bar_tier_3_icon",
+    "label": "t:settings.free_shipping_bar_tier_icon",
+    "options": [
+      { "value": "none", "label": "t:options.none" },
+      { "value": "truck", "label": "t:options.free_shipping_bar_icon_truck" },
+      { "value": "gift", "label": "t:options.free_shipping_bar_icon_gift" },
+      { "value": "discount", "label": "t:options.free_shipping_bar_icon_discount" }
+    ],
+    "default": "discount",
+    "visible_if": "{{ settings.show_free_shipping_bar }}"
+  },
+  {
+    "type": "header",
+    "content": "t:content.free_shipping_bar_style"
+  },
+  {
+    "type": "color",
+    "id": "free_shipping_bar_color",
+    "label": "t:settings.free_shipping_bar_color",
+    "visible_if": "{{ settings.show_free_shipping_bar }}"
+  },
+  {
+    "type": "range",
+    "id": "free_shipping_bar_track_height",
+    "label": "t:settings.free_shipping_bar_track_height",
+    "min": 2,
+    "max": 20,
+    "step": 1,
+    "unit": "px",
+    "default": 8,
+    "visible_if": "{{ settings.show_free_shipping_bar }}"
+  },
+  {
+    "type": "range",
+    "id": "free_shipping_bar_marker_size",
+    "label": "t:settings.free_shipping_bar_marker_size",
+    "min": 10,
+    "max": 32,
+    "step": 1,
+    "unit": "px",
+    "default": 16,
+    "visible_if": "{{ settings.show_free_shipping_bar }}"
+  },
+  {
+    "type": "range",
+    "id": "free_shipping_bar_icon_size",
+    "label": "t:settings.free_shipping_bar_icon_size",
+    "info": "t:info.free_shipping_bar_icon_size",
+    "min": 6,
+    "max": 24,
+    "step": 1,
+    "unit": "px",
+    "default": 10,
+    "visible_if": "{{ settings.show_free_shipping_bar }}"
+  },
+  {
+    "type": "text",
+    "id": "free_shipping_bar_progress_text",
+    "label": "t:settings.free_shipping_bar_progress_text",
+    "info": "t:info.free_shipping_bar_progress_text",
+    "default": "Only [amount] away from [reward]!",
+    "visible_if": "{{ settings.show_free_shipping_bar }}"
+  },
+  {
+    "type": "text",
+    "id": "free_shipping_bar_success_text",
+    "label": "t:settings.free_shipping_bar_success_text",
+    "default": "You've unlocked every reward!",
+    "visible_if": "{{ settings.show_free_shipping_bar }}"
+  }
+]
