@@ -13,8 +13,9 @@ abonnement mensuel, et aucun JavaScript — l'animation de remplissage repose
 sur le mécanisme de morphing DOM déjà présent dans le thème, pas sur un
 script custom.
 
-*(Captures d'écran : dépose les tiennes dans `docs/screenshots/` — ce repo
-n'en contient pas encore.)*
+| Avant | Après |
+|---|---|
+| ![Drawer panier avec le total standard du thème, aucun indicateur de progression de livraison](docs/screenshots/cart-drawer-before.png) | ![Drawer panier avec la barre de livraison gratuite entièrement remplie, les 3 paliers atteints, message de succès affiché](docs/screenshots/cart-drawer-after.png) |
 
 ## Fonctionnalités
 

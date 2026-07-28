@@ -11,8 +11,9 @@ Built for the **Shopify Horizon** theme. No third-party app, no monthly fee,
 no JavaScript at all — the fill animation runs on the theme's existing DOM
 morphing, not a custom script.
 
-*(Screenshots: drop yours into `docs/screenshots/` — this repo doesn't ship
-with any yet.)*
+| Before | After |
+|---|---|
+| ![Cart drawer with the theme's default cart total, no shipping progress indicator](docs/screenshots/cart-drawer-before.png) | ![Cart drawer with the free shipping bar fully filled, all 3 tiers reached, success message showing](docs/screenshots/cart-drawer-after.png) |
 
 ## Features
 
