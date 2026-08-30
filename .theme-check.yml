@@ -1,0 +1,7 @@
+# This repo ships a single portable snippet, meant to be copied into a
+# merchant's own theme and rendered manually from their cart-drawer.liquid
+# (README install step 3) — nothing inside this repo calls it, by design.
+extends: theme-check:recommended
+
+OrphanedSnippet:
+  enabled: false

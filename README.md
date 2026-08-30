@@ -2,6 +2,8 @@
 
 # Shopify Free Shipping Bar — progressive cart drawer bar
 
+[![Theme Check](https://github.com/pteyo032/shopify-free-shipping-bar/actions/workflows/theme-check.yml/badge.svg)](https://github.com/pteyo032/shopify-free-shipping-bar/actions/workflows/theme-check.yml)
+
 A theme-native, multi-tier progress bar for the cart drawer: the customer
 sees how close they are to free shipping (or any reward you configure), with
 up to 3 tiers on a single segmented bar — one segment per tier, each filling
