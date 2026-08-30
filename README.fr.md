@@ -2,6 +2,8 @@
 
 # Shopify Free Shipping Bar — barre de progression pour le drawer panier
 
+[![Theme Check](https://github.com/pteyo032/shopify-free-shipping-bar/actions/workflows/theme-check.yml/badge.svg)](https://github.com/pteyo032/shopify-free-shipping-bar/actions/workflows/theme-check.yml)
+
 Une barre de progression multi-paliers, native au thème, pour le drawer
 panier : le client voit à quel point il est proche de la livraison gratuite
 (ou de toute autre récompense configurée), avec jusqu'à 3 paliers sur une
